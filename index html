@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title data-i18n="metaTitle">Malek Structure | Ingénierie & Réalisations Métalliques</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --fond: #ffffff;
+      --fond-clair: #f4f4f4;
+      --bord: #e0e6f0;
+      --accent: #111111;
+      --accent-2: #333333;
+      --texte: #111827;
+      --gris: #4b5563;
+      --gris-clair: #8a94a6;
+      --chip-bg: #f3f4f6;
+      --rayon: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Montserrat', 'Cairo', sans-serif;
+      background: var(--fond);
+      color: var(--texte);
+      line-height: 1.6;
+    }
+    img, video { max-width: 100%; height: auto; border-radius: 14px; }
+    a {
+      color: var(--texte);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    a:hover { color: #555555; }
+    .site-header {
+      position: relative;
+      background-image:
+        linear-gradient(120deg, rgba(255,255,255,0.85), rgba(116,197,255,0.45)),
+        url('https://i.postimg.cc/HknRNqxK/1764791244246-k4zy1m-2-1.jpg');
+      background-size: cover;
+      background-position: center;
+      padding-bottom: 5rem;
+      border-bottom: 1px solid var(--bord);
+    }
+    .nav-bar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      background: rgba(255,255,255,0.94);
+      border-bottom: 1px solid rgba(15,23,42,0.08);
+      box-shadow: 0 10px 25px rgba(15,23,42,0.05);
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .logo {
+      justify-self: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 64px;
+    }
+    .logo img {
+      height: 64px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 0;
+    }
+    .nav-right {
+      justify-self: end;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .lang-switch {
+      display: inline-flex;
+      border: 1px solid var(--bord);
+      border-radius: 12px;
+      background: #f8f8f8;
+      padding: 0.15rem;
+      gap: 0.15rem;
+      direction: ltr;
+    }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: var(--gris);
+      transition: background 0.2s, color 0.2s;
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: #ffffff;
+    }
+    .burger {
+      width: 48px;
+      height: 48px;
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      padding: 0 6px;
+      cursor: pointer;
+    }
+    .burger span {
+      display: block;
+      height: 2px;
+      background: var(--texte);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .burger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .burger.active span:nth-child(2) { opacity: 0; }
+    .burger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,24,39,0.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 998;
+    }
+    .drawer-overlay.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .drawer {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: min(320px, 75vw);
+      background: #ffffff;
+      box-shadow: 8px 0 30px rgba(15,23,42,0.12);
+      transform: translateX(-100%);
+      transition: transform 0.35s ease;
+      z-index: 999;
+      padding: 2rem 1.5rem;
+    }
+    .drawer.open { transform: translateX(0); }
+    .drawer ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .drawer a {
+      font-size: 1.05rem;
+      color: var(--texte);
+      font-weight: 500;
+    }
+    .btn {
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primaire {
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      color: #ffffff;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
+    }
+    .btn-primaire:hover { transform: translateY(-2px); }
+    .btn-secondaire {
+      border: 1px solid var(--bord);
+      background: transparent;
+      color: var(--texte);
+    }
+    .hero {
+      padding: 4rem 1.5rem 0;
+    }
+    .conteneur {
+      max-width: 1200px;
+      margin: auto;
+    }
+    .hero-grid {
+      display: grid;
+      gap: 2.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      align-items: center;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      margin-bottom: 1rem;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin: 1.5rem 0;
+    }
+    .chip {
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      background: var(--chip-bg);
+      border: 1px solid var(--bord);
+      font-size: 0.85rem;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .hero-visual {
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: var(--rayon);
+      border: 1px solid var(--bord);
+      box-shadow: 0 20px 45px rgba(15,23,42,0.1);
+    }
+    section {
+      padding: 5rem 1.5rem;
+      border-bottom: 1px solid var(--bord);
+      background: var(--fond);
+    }
+    section:nth-of-type(odd) { background: var(--fond-clair); }
+    h2 { font-size: clamp(1.6rem, 4vw, 2.3rem); margin-bottom: 0.5rem; }
+    h3 { margin-top: 0; }
+    .carte {
+      padding: 2rem;
+      border-radius: var(--rayon);
+      background: #ffffff;
+      border: 1px solid var(--bord);
+      box-shadow: 0 15px 35px rgba(15,23,42,0.08);
+    }
+    .pro-card {
+      position: relative;
+      overflow: hidden;
+      background: radial-gradient(circle at 10% 20%, rgba(255,255,255,0.15), transparent 55%),
+                  linear-gradient(135deg, #0f172a, #1f2a44 55%, #2b3d63);
+      color: #f8fafc;
+      border: none;
+      padding: 2.4rem;
+      box-shadow: 0 25px 60px rgba(15,23,42,0.45);
+    }
+    .pro-card::after {
+      content: "";
+      position: absolute;
+      inset: -60% auto auto -60%;
+      width: 220px;
+      height: 220px;
+      background: rgba(255,255,255,0.08);
+      transform: rotate(35deg);
+      border-radius: 24px;
+      pointer-events: none;
+    }
+    .pro-card .pro-tag {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #0f172a;
+      background: rgba(255,255,255,0.88);
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.1rem;
+      font-weight: 700;
+    }
+    .pro-card h3,
+    .pro-card p,
+    .pro-card li { position: relative; z-index: 1; }
+    .pro-card p { color: rgba(248,250,252,0.92); }
+    .pro-card ul {
+      padding-left: 1rem;
+      color: rgba(248,250,252,0.85);
+    }
+    .pro-card ul li { margin-bottom: 0.35rem; }
+    .pro-highlights {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0 1.8rem;
+    }
+    .pro-highlights strong {
+      display: block;
+      font-size: 1.35rem;
+      color: #ffffff;
+    }
+    .pro-highlights span {
+      font-size: 0.85rem;
+      color: rgba(248,250,252,0.75);
+    }
+    .pro-card img {
+      position: relative;
+      z-index: 1;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.25);
+      box-shadow: 0 15px 40px rgba(8,13,23,0.45);
+    }
+    .grid { display: grid; gap: 1.5rem; }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .nos-services .service-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      padding: 1.5rem;
+      border-radius: var(--rayon);
+      background: #ffffff;
+      border: 1px solid var(--bord);
+      box-shadow: 0 12px 30px rgba(15,23,42,0.08);
+    }
+    .nos-services .service-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    .nos-services .service-card p {
+      color: var(--gris);
+      margin: 0;
+    }
+    .expertise .stat {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    .engagements {
+      background: var(--fond-clair);
+    }
+    .engagements .headline {
+      max-width: 640px;
+      margin-bottom: 2.5rem;
+    }
+    .engagements-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      position: relative;
+      padding-left: 2rem;
+    }
+    .engagements-list::before {
+      content: "";
+      position: absolute;
+      left: calc(2rem + 32px);
+      top: 48px;
+      bottom: 48px;
+      width: 2px;
+      background: var(--bord);
+    }
+    .engagement-row {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 1.25rem;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .engagement-card {
+      padding: 1.25rem 1.5rem;
+      border-radius: var(--rayon);
+      background: #ffffff;
+      border: 1px solid var(--bord);
+      box-shadow: 0 12px 28px rgba(15,23,42,0.08);
+    }
+    .icon-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--accent);
+      box-shadow: 0 8px 20px rgba(15,23,42,0.08);
+      border: 1px solid rgba(15,23,42,0.05);
+    }
+    .icon-circle svg {
+      width: 28px;
+      height: 28px;
+      stroke-width: 1.8;
+    }
+    .icon-circle.gold { background: #fff7d6; }
+    .icon-circle.blue { background: #eef4ff; }
+    .icon-circle.pink { background: #fdf2f8; color: #c026d3; }
+    .icon-circle.green { background: #ecfdf3; color: #0f9d58; }
+    .icon-circle.orange { background: #fff3ea; color: #ea580c; }
+    form {
+      display: grid;
+      gap: 1rem;
+      width: 100%;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--bord);
+      background: #ffffff;
+      color: var(--texte);
+      font-size: 1rem;
+      font-family: inherit;
+    }
+    input::placeholder, textarea::placeholder { color: var(--gris-clair); }
+    textarea { min-height: 140px; resize: vertical; }
+    label span, label { color: var(--gris); font-size: 0.95rem; }
+    .contact-lead {
+      margin: 0 0 1.5rem;
+      color: var(--gris);
+    }
+    .contact-info { display: flex; flex-direction: column; gap: 1rem; color: var(--gris); }
+    .map { border: 0; width: 100%; height: 240px; border-radius: 12px; }
+    .consent {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--gris);
+    }
+    .consent input { width: auto; }
+    footer {
+      padding: 3rem 1.5rem 4rem;
+      background: #101828;
+      color: #e5e7ef;
+    }
+    footer .conteneur {
+      display: grid;
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+    footer small { display: block; margin-top: 1rem; line-height: 1.4; color: #c9d4e9; }
+    .reveal {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    body.rtl {
+      text-align: right;
+      font-family: 'Cairo', 'Montserrat', sans-serif;
+    }
+    body.rtl input,
+    body.rtl textarea,
+    body.rtl select {
+      text-align: right;
+    }
+    body.rtl ul {
+      padding-inline-start: 0;
+      padding-inline-end: 1.2rem;
+    }
+    body.rtl .chips {
+      justify-content: flex-end;
+    }
+    body.rtl .hero-actions {
+      flex-direction: row-reverse;
+    }
+    body.rtl .drawer {
+      inset: 0 0 0 auto;
+      transform: translateX(100%);
+      text-align: right;
+      direction: rtl;
+    }
+    body.rtl .drawer ul { align-items: flex-end; }
+    body.rtl .drawer.open { transform: translateX(0); }
+    body.rtl .nav-right {
+      justify-self: start;
+      flex-direction: row-reverse;
+    }
+    body.rtl .nav-left {
+      justify-self: end;
+    }
+    body.rtl .nav-bar {
+      text-align: initial;
+    }
+    @media (max-width: 768px) {
+      .btn-primaire.nav-cta { display: none; }
+      section { padding: 4rem 1rem; }
+    }
+    @media (max-width: 600px) {
+      .engagements-list {
+        padding-left: 0;
+      }
+      .engagements-list::before { display: none; }
+      .engagement-row {
+        grid-template-columns: 1fr;
+      }
+      .icon-circle {
+        margin-bottom: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<header class="site-header" id="accueil">
+  <div class="nav-bar">
+    <div class="nav-left">
+      <button class="burger" id="burger" data-i18n-aria="burgerLabel" aria-label="Ouvrir le menu" aria-haspopup="true" aria-controls="drawerNav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <a class="logo" href="#accueil" aria-label="Malek Structure">
+      <img src="https://i.postimg.cc/HkGnKR7V/Photo-Room-20251203-170201.png" alt="Malek Structure - logo">
+    </a>
+    <div class="nav-right">
+      <div class="lang-switch" role="group" data-i18n-aria="langSwitchLabel" aria-label="Sélecteur de langue">
+        <button type="button" class="lang-btn active" data-lang="fr" aria-pressed="true">FR</button>
+        <button type="button" class="lang-btn" data-lang="ar" aria-pressed="false">AR</button>
+      </div>
+      <button class="btn btn-primaire nav-cta" data-i18n="navQuote" data-scroll="#contact" type="button">Demander un devis gratuit</button>
+    </div>
+  </div>
+
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <nav class="drawer" id="drawerNav" aria-label="Menu latéral" data-i18n-aria="drawerLabel">
+    <ul>
+      <li><a href="#accueil" data-i18n="navHome">Accueil</a></li>
+      <li><a href="#apropos" data-i18n="navAbout">À propos</a></li>
+      <li><a href="#nos-services" data-i18n="navNosServices">Nos services</a></li>
+      <li><a href="#expertise" data-i18n="navExpertise">Expertise</a></li>
+      <li><a href="#engagements" data-i18n="navEngagements">Direction engineering</a></li>
+      <li><a href="#contact" data-i18n="navContact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="hero">
+    <div class="conteneur hero-grid">
+      <div class="reveal">
+        <h1 data-i18n="heroTitle">Structures métalliques haute précision pour chantiers d’envergure.</h1>
+        <p data-i18n="heroLead">Nous accompagnons les architectes, bureaux d’études et majors du BTP avec des solutions clés en main : conception, fabrication, montage et maintenance de charpentes et enveloppes métalliques.</p>
+        <div class="chips">
+          <span class="chip" data-i18n="heroChip1">Normes EN 1090 & ISO 9001</span>
+          <span class="chip" data-i18n="heroChip2">Capacité atelier 12 000 m²</span>
+          <span class="chip" data-i18n="heroChip3">BIM & jumeaux numériques</span>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-primaire" data-i18n="heroPrimaryBtn" data-scroll="#nos-services" type="button">Découvrir nos services</button>
+          <button class="btn btn-secondaire" data-i18n="heroSecondaryBtn" data-scroll="#contact" type="button">Demandez votre devis gratuit →</button>
+        </div>
+      </div>
+      <div class="reveal hero-visual">
+        <img src="https://i.postimg.cc/HknRNqxK/1764791244246-k4zy1m-2-1.jpg" alt="Chantier métallique">
+        <p style="margin-top:1rem;color:var(--gris);" data-i18n="heroCaption">Monitoring temps réel • Traçabilité numérique • Coordination multi-lots.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="apropos">
+    <div class="conteneur grid grid-2">
+      <div class="reveal">
+        <p class="chip" data-i18n="chipAbout">À propos</p>
+        <h2 data-i18n="aboutHeading">10 ans de savoir-faire au service des infrastructures métalliques.</h2>
+        <p data-i18n="aboutText">Malek Structure conçoit et réalise des ossatures complexes pour les secteurs industriel, tertiaire et logistique. Notre bureau d’études intégré coordonne modélisation BIM, notes de calcul, plans d’exécution et synthèse technique.</p>
+        <ul style="color:var(--gris);">
+          <li data-i18n="aboutList1">Site de production à Bouira</li>
+          <li data-i18n="aboutList2">Équipe pluridisciplinaire (ingénieurs, métalliers, chefs de projet)</li>
+          <li data-i18n="aboutList3">Certifications EN 1090-2 Classe EXC4, ISO 3834-2</li>
+        </ul>
+      </div>
+      <div class="reveal carte pro-card">
+        <span class="pro-tag" data-i18n="fieldOpsTag">Ops premium</span>
+        <h3 data-i18n="fieldOpsTitle">Ateliers de production</h3>
+        <p data-i18n="fieldOpsText1">Nos ateliers internes assurent la continuité complète entre études, découpe, soudage et finition pour des livraisons impeccables.</p>
+        <ul>
+          <li data-i18n="fieldOpsList1">Cellules de découpe laser/plasma CNC connectées au BIM.</li>
+          <li data-i18n="fieldOpsList2">Lignes de soudage robotisées multi-axes + bancs manuels homologués.</li>
+          <li data-i18n="fieldOpsList3">Cabines de grenaillage & peinture conformes ISO 12944.</li>
+        </ul>
+        <div class="pro-highlights">
+          <div>
+            <strong data-i18n="fieldOpsStat1">12 000 m²</strong>
+            <span data-i18n="fieldOpsStat1Label">Surface opérationnelle</span>
+          </div>
+          <div>
+            <strong data-i18n="fieldOpsStat2">ISO 3834-2</strong>
+            <span data-i18n="fieldOpsStat2Label">Soudage certifié</span>
+          </div>
+          <div>
+            <strong data-i18n="fieldOpsStat3">3×8</strong>
+            <span data-i18n="fieldOpsStat3Label">Production continue</span>
+          </div>
+    </div>
+  </section>
+
+  <section id="nos-services" class="nos-services">
+    <div class="conteneur">
+      <div class="reveal">
+        <p class="chip" data-i18n="chipNosServices">Nos services</p>
+        <h2 data-i18n="nosServicesHeading">Des solutions métalliques sur mesure pour vos élevages et sites industriels.</h2>
+        <p data-i18n="nosServicesText">Du petit hangar avicole à la nouvelle usine, nous dimensionnons, fabriquons et montons vos structures acier sur mesure.</p>
+      </div>
+      <div class="grid grid-2">
+        <article class="service-card reveal">
+          <img src="https://i.postimg.cc/zvwMjCMH/1765101739147-p1rwlw-2-1.jpg" alt="Hangar avicole" loading="lazy">
+          <h3 data-i18n="nosService1Title">Hangars avicoles modulaires</h3>
+          <p data-i18n="nosService1Text">Structures légères adaptées aux élevages de volailles de petite et moyenne capacité avec ventilation contrôlée et panneaux hygiéniques.</p>
+        </article>
+        <article class="service-card reveal">
+          <img src="https://i.postimg.cc/x1Pm2Xrn/d4cd9803-8b2e-4521-b26d-e3f4de639c33.jpg" alt="Étable métallique" loading="lazy">
+          <h3 data-i18n="nosService2Title">Bergeries & étables métalliques</h3>
+          <p data-i18n="nosService2Text">Charpentes évolutives pour ovins et bovins, isolation climatique, couloirs d’alimentation et réserves fourragères intégrées.</p>
+        </article>
+        <article class="service-card reveal">
+          <img src="https://i.postimg.cc/KYy09kPn/1765102613386-jk4qkn-2-1.jpg" alt="Entrepôt industriel" loading="lazy">
+          <h3 data-i18n="nosService3Title">Entrepôts industriels polyvalents</h3>
+          <p data-i18n="nosService3Text">Conception de bâtiments métalliques petite, moyenne ou grande portée pour vos stocks, pièces détachées ou lignes logistiques.</p>
+        </article>
+        <article class="service-card reveal">
+          <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=60" alt="Nouvelle usine métallique" loading="lazy">
+          <h3 data-i18n="nosService4Title">Usines clé en main</h3>
+          <p data-i18n="nosService4Text">Accompagnement complet pour bâtir de nouveaux sites industriels : études, fabrication, montage et mise en service accélérée.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="expertise" class="expertise">
+    <div class="conteneur grid grid-3">
+      <article class="carte reveal">
+        <p class="chip" data-i18n="chipExpertise">Expertise</p>
+        <h3 data-i18n="expertise1Title">Normes & conformité</h3>
+        <p data-i18n="expertise1Text">Processus alignés sur EN 1090, ISO 9001, ISO 14001, ISO 45001. Traçabilité numérique, audits réguliers d’organismes tierce partie.</p>
+        <ul style="color:var(--gris);">
+          <li data-i18n="expertise1List1">Plan qualité chantier</li>
+          <li data-i18n="expertise1List2">Traçabilité soudure WPS/WPQR</li>
+          <li data-i18n="expertise1List3">Plan de prévention HSE</li>
+        </ul>
+      </article>
+      <article class="carte reveal">
+        <h3 data-i18n="expertise2Title">Capacités techniques</h3>
+        <p data-i18n="expertise2Text">12 ponts roulants, 6 lignes de découpe plasma HD, robots de soudure multi-axes, cabine peinture XXL, laboratoire métallographique.</p>
+        <div class="stat" data-i18n="expertise2Stat">24/7</div>
+        <p data-i18n="expertise2Note">Production continue et supervision en temps réel.</p>
+      </article>
+      <article class="carte reveal">
+        <h3 data-i18n="expertise3Title">Équipements digitaux</h3>
+        <p data-i18n="expertise3Text">Suite logicielle Tekla Structures, Revit, Advance Steel, Robot Structural Analysis, Fieldwire et Power BI pour les KPI.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="engagements" class="engagements">
+    <div class="conteneur">
+      <div class="reveal headline">
+        <p class="chip" data-i18n="chipEngagements">Direction engineering</p>
+        <h2 data-i18n="engagementsHeading">Direction engineering pour vos projets.</h2>
+        <p data-i18n="engagementsLead">Notre taskforce d’ingénieurs orchestre l’avant-projet, la modélisation et le suivi opérationnel afin de sécuriser coûts, délais et qualité sur chaque chantier.</p>
+      </div>
+      <div class="engagements-list">
+        <div class="engagement-row reveal">
+          <span class="icon-circle gold" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="10.5" stroke="currentColor"></circle>
+              <path d="M11 17.5l3.5 3.5 7-8" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <article class="engagement-card">
+            <h3 data-i18n="engagement1Title">Expérience approuvée</h3>
+            <p data-i18n="engagement1Text">Expérience professionnelle approuvée</p>
+          </article>
+        </div>
+        <div class="engagement-row reveal">
+          <span class="icon-circle blue" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <circle cx="20" cy="11" r="4" stroke="currentColor"></circle>
+              <circle cx="10" cy="14" r="3" stroke="currentColor"></circle>
+              <path d="M6 23c1.2-3.5 4-5 8-5 4.2 0 7.2 1.6 9 5" stroke="currentColor" stroke-linecap="round"></path>
+              <path d="M4 24c0-2.4 1.6-3.6 4.4-4.2" stroke="currentColor" stroke-linecap="round"></path>
+            </svg>
+          </span>
+          <article class="engagement-card">
+            <h3 data-i18n="engagement2Title">Équipe brillante</h3>
+            <p data-i18n="engagement2Text">Noyau technique à fort potentiel</p>
+          </article>
+        </div>
+        <div class="engagement-row reveal">
+          <span class="icon-circle pink" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M16 6.5a6 6 0 0 0-3 11.2V22h6v-4.3A6 6 0 0 0 16 6.5z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M13 25h6" stroke="currentColor" stroke-linecap="round"></path>
+              <path d="M14 28h4" stroke="currentColor" stroke-linecap="round"></path>
+            </svg>
+          </span>
+          <article class="engagement-card">
+            <h3 data-i18n="engagement3Title">Créativité</h3>
+            <p data-i18n="engagement3Text">Solutions innovantes</p>
+          </article>
+        </div>
+        <div class="engagement-row reveal">
+          <span class="icon-circle green" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <path d="M14 4l-3 10h5l-2 10 9-14h-5l3-6h-7z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+          <article class="engagement-card">
+            <h3 data-i18n="engagement4Title">Réactivité</h3>
+            <p data-i18n="engagement4Text">Réactivité et partage</p>
+          </article>
+        </div>
+        <div class="engagement-row reveal">
+          <span class="icon-circle orange" aria-hidden="true">
+            <svg viewBox="0 0 32 32" fill="none">
+              <circle cx="16" cy="16" r="10" stroke="currentColor"></circle>
+              <circle cx="16" cy="16" r="5" stroke="currentColor"></circle>
+              <circle cx="16" cy="16" r="1.5" fill="currentColor"></circle>
+            </svg>
+          </span>
+          <article class="engagement-card">
+            <h3 data-i18n="engagement5Title">100% résultat garanti</h3>
+            <p data-i18n="engagement5Text">Étude solide et optimale</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="conteneur grid grid-2">
+      <div class="reveal">
+        <p class="chip" data-i18n="chipContact">Contact & devis gratuit</p>
+        <h2 data-i18n="contactHeading">Parlons de votre projet, devis gratuit à la clé.</h2>
+        <p class="contact-lead" data-i18n="contactLead">Un ingénieur vous répond en moins de 24 h avec une estimation détaillée.</p>
+        <form aria-label="Formulaire de demande de devis" data-i18n-aria="contactFormLabel">
+          <input type="text" name="nom" placeholder="Nom / Société *" required data-i18n-placeholder="formNamePlaceholder">
+          <input type="email" name="email" placeholder="Email professionnel *" required data-i18n-placeholder="formEmailPlaceholder">
+          <input type="tel" name="tel" placeholder="Téléphone" data-i18n-placeholder="formPhonePlaceholder">
+          <input type="text" name="adresse" placeholder="Adresse complète" data-i18n-placeholder="formAddressPlaceholder">
+          <select name="service">
+            <option value="" data-i18n="selectPlaceholder">Type de prestation</option>
+            <option value="conception" data-i18n="selectOption1">Conception & ingénierie</option>
+            <option value="fabrication" data-i18n="selectOption2">Fabrication</option>
+            <option value="montage" data-i18n="selectOption3">Montage / chantier</option>
+            <option value="maintenance" data-i18n="selectOption4">Maintenance</option>
+          </select>
+          <textarea name="message" data-i18n-placeholder="textareaPlaceholder" placeholder="Décrivez brièvement votre projet (dimensions, délais, contraintes)…"></textarea>
+          <label class="consent">
+            <input type="checkbox" required>
+            <span data-i18n="consentText">J’accepte que mes données soient utilisées pour me recontacter (RGPD).</span>
+          </label>
+          <button type="submit" class="btn btn-primaire" data-i18n="submitBtn">Recevoir mon devis gratuit</button>
+        </form>
+      </div>
+      <div class="reveal carte contact-info">
+        <h3 data-i18n="contactCardTitle">Coordonnées</h3>
+        <p data-i18n-html="contactHQAddress"><strong>Siège</strong><br>Zone industrielle Aïn Bessem, 10000 Bouira</p>
+        <p data-i18n-html="contactPhoneEmail">Tél. +213796096433<br>Adresse : Zone industrielle Aïn Bessem, 10000 Bouira<br>Email : malekstructure@gmail.com</p>
+        <p data-i18n="contactSupport">Devis gratuit • Réponse moyenne : 24 h ouvrées</p>
+        <iframe class="map" title="Localisation Bouira" data-i18n-title="mapTitle" src="https://www.google.com/maps?q=Bouira,+Algeria&amp;output=embed"></iframe>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="conteneur">
+    <div>
+      <h3>Malek Structure</h3>
+      <p data-i18n="footerText">Ingénierie, fabrication et montage de constructions métalliques complexes partout en Algérie.</p>
+    </div>
+    <div>
+      <h4 data-i18n="footerLegalTitle">Mentions légales</h4>
+      <small data-i18n-html="footerLegalText">SARL Malek Structure – Bouira<br>
+      Tél. +213796096433<br>
+      Adresse : Zone industrielle Aïn Bessem, 10000 Bouira<br>
+      Email : malekstructure@gmail.com<br>
+      Politique de confidentialité • RGPD • Cookies</small>
+    </div>
+    <div>
+      <h4 data-i18n="footerDeliverablesTitle">Livrables</h4>
+      <ul style="list-style:none;padding:0;margin:0;color:#c9d4e9;">
+        <li data-i18n="deliverable1">Documentation technique</li>
+        <li data-i18n="deliverable2">Manuel d’administration</li>
+        <li data-i18n="deliverable3">Sources (code + base)</li>
+        <li data-i18n="deliverable4">Support post-lancement 3 mois</li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('[data-scroll]').forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const target = document.querySelector(trigger.dataset.scroll);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  const burger = document.getElementById('burger');
+  const drawer = document.getElementById('drawerNav');
+  const overlay = document.getElementById('drawerOverlay');
+  const drawerLinks = drawer.querySelectorAll('a');
+
+  function toggleDrawer(forceClose = false) {
+    const open = forceClose ? false : !drawer.classList.contains('open');
+    drawer.classList.toggle('open', open);
+    overlay.classList.toggle('visible', open);
+    burger.classList.toggle('active', open);
+    burger.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+  burger.addEventListener('click', () => toggleDrawer());
+  overlay.addEventListener('click', () => toggleDrawer(true));
+  drawerLinks.forEach(link => link.addEventListener('click', () => toggleDrawer(true)));
+
+  const translations = {
+    fr: {
+      metaTitle: "Malek Structure | Ingénierie & Réalisations Métalliques",
+      burgerLabel: "Ouvrir le menu",
+      drawerLabel: "Menu latéral",
+      langSwitchLabel: "Sélecteur de langue",
+      navQuote: "Demander un devis gratuit",
+      navHome: "Accueil",
+      navAbout: "À propos",
+      navNosServices: "Nos services",
+      navExpertise: "Expertise",
+      navEngagements: "Direction engineering",
+      navContact: "Contact",
+      heroTitle: "Structures métalliques haute précision pour chantiers d’envergure.",
+      heroLead: "Nous accompagnons les architectes, bureaux d’études et majors du BTP avec des solutions clés en main : conception, fabrication, montage et maintenance de charpentes et enveloppes métalliques.",
+      heroChip1: "Normes EN 1090 & ISO 9001",
+      heroChip2: "Capacité atelier 12 000 m²",
+      heroChip3: "BIM & jumeaux numériques",
+      heroPrimaryBtn: "Découvrir nos services",
+      heroSecondaryBtn: "Demandez votre devis gratuit →",
+      heroCaption: "Monitoring temps réel • Traçabilité numérique • Coordination multi-lots.",
+      chipAbout: "À propos",
+      aboutHeading: "10 ans de savoir-faire au service des infrastructures métalliques.",
+      aboutText: "Malek Structure conçoit et réalise des ossatures complexes pour les secteurs industriel, tertiaire et logistique. Notre bureau d’études intégré coordonne modélisation BIM, notes de calcul, plans d’exécution et synthèse technique.",
+      aboutList1: "Site de production à Bouira",
+      aboutList2: "Équipe pluridisciplinaire (ingénieurs, métalliers, chefs de projet)",
+      aboutList3: "Certifications EN 1090-2 Classe EXC4, ISO 3834-2",
+      fieldOpsTag: "Ops premium",
+      fieldOpsTitle: "Ateliers de production",
+      fieldOpsText1: "Nos ateliers internes assurent la continuité complète entre études, découpe, soudage et finition pour des livraisons impeccables.",
+      fieldOpsList1: "Cellules de découpe laser/plasma CNC connectées au BIM.",
+      fieldOpsList2: "Lignes de soudage robotisées multi-axes + bancs manuels homologués.",
+      fieldOpsList3: "Cabines de grenaillage & peinture conformes ISO 12944.",
+      fieldOpsStat1: "12 000 m²",
+      fieldOpsStat1Label: "Surface opérationnelle",
+      fieldOpsStat2: "ISO 3834-2",
+      fieldOpsStat2Label: "Soudage certifié",
+      fieldOpsStat3: "3×8",
+      fieldOpsStat3Label: "Production continue",
+      chipNosServices: "Nos services",
+      nosServicesHeading: "Des solutions métalliques sur mesure pour vos élevages et sites industriels.",
+      nosServicesText: "Du petit hangar avicole à la nouvelle usine, nous dimensionnons, fabriquons et montons vos structures acier sur mesure.",
+      nosService1Title: "Hangars avicoles modulaires",
+      nosService1Text: "Structures légères adaptées aux élevages de volailles de petite et moyenne capacité avec ventilation contrôlée et panneaux hygiéniques.",
+      nosService2Title: "Bergeries & étables métalliques",
+      nosService2Text: "Charpentes évolutives pour ovins et bovins, isolation climatique, couloirs d’alimentation et réserves fourragères intégrées.",
+      nosService3Title: "Entrepôts industriels polyvalents",
+      nosService3Text: "Conception de bâtiments métalliques petite, moyenne ou grande portée pour vos stocks, pièces détachées ou lignes logistiques.",
+      nosService4Title: "Usines clé en main",
+      nosService4Text: "Accompagnement complet pour bâtir de nouveaux sites industriels : études, fabrication, montage et mise en service accélérée.",
+      chipExpertise: "Expertise",
+      expertise1Title: "Normes & conformité",
+      expertise1Text: "Processus alignés sur EN 1090, ISO 9001, ISO 14001, ISO 45001. Traçabilité numérique, audits réguliers d’organismes tierce partie.",
+      expertise1List1: "Plan qualité chantier",
+      expertise1List2: "Traçabilité soudure WPS/WPQR",
+      expertise1List3: "Plan de prévention HSE",
+      expertise2Title: "Capacités techniques",
+      expertise2Text: "12 ponts roulants, 6 lignes de découpe plasma HD, robots de soudure multi-axes, cabine peinture XXL, laboratoire métallographique.",
+      expertise2Stat: "24/7",
+      expertise2Note: "Production continue et supervision en temps réel.",
+      expertise3Title: "Équipements digitaux",
+      expertise3Text: "Suite logicielle Tekla Structures, Revit, Advance Steel, Robot Structural Analysis, Fieldwire et Power BI pour les KPI.",
+      chipEngagements: "Direction engineering",
+      engagementsHeading: "Direction engineering pour vos projets.",
+      engagementsLead: "Notre taskforce d’ingénieurs orchestre l’avant-projet, la modélisation et le suivi opérationnel afin de sécuriser coûts, délais et qualité sur chaque chantier.",
+      engagement1Title: "Expérience approuvée",
+      engagement1Text: "Expérience professionnelle approuvée",
+      engagement2Title: "Équipe brillante",
+      engagement2Text: "Noyau technique à fort potentiel",
+      engagement3Title: "Créativité",
+      engagement3Text: "Solutions innovantes",
+      engagement4Title: "Réactivité",
+      engagement4Text: "Réactivité et partage",
+      engagement5Title: "100% résultat garanti",
+      engagement5Text: "Étude solide et optimale",
+      chipContact: "Contact & devis gratuit",
+      contactHeading: "Parlons de votre projet, devis gratuit à la clé.",
+      contactLead: "Un ingénieur vous répond en moins de 24 h avec une estimation détaillée.",
+      formNamePlaceholder: "Nom / Société *",
+      formEmailPlaceholder: "Email professionnel *",
+      formPhonePlaceholder: "Téléphone",
+      formAddressPlaceholder: "Adresse complète",
+      selectPlaceholder: "Type de prestation",
+      selectOption1: "Conception & ingénierie",
+      selectOption2: "Fabrication",
+      selectOption3: "Montage / chantier",
+      selectOption4: "Maintenance",
+      textareaPlaceholder: "Décrivez brièvement votre projet (dimensions, délais, contraintes)…",
+      contactFormLabel: "Formulaire de demande de devis",
+      consentText: "J’accepte que mes données soient utilisées pour me recontacter (RGPD).",
+      submitBtn: "Recevoir mon devis gratuit",
+      contactCardTitle: "Coordonnées",
+      contactHQAddress: "<strong>Siège</strong><br>Zone industrielle Aïn Bessem, 10000 Bouira",
+      contactPhoneEmail: "Tél. +213796096433<br>Adresse : Zone industrielle Aïn Bessem, 10000 Bouira<br>Email : malekstructure@gmail.com",
+      contactSupport: "Devis gratuit • Réponse moyenne : 24 h ouvrées",
+      mapTitle: "Localisation Bouira",
+      footerText: "Ingénierie, fabrication et montage de constructions métalliques complexes partout en Algérie.",
+      footerLegalTitle: "Mentions légales",
+      footerLegalText: "SARL Malek Structure – Bouira<br>Tél. +213796096433<br>Adresse : Zone industrielle Aïn Bessem, 10000 Bouira<br>Email : malekstructure@gmail.com<br>Politique de confidentialité • RGPD • Cookies",
+      footerDeliverablesTitle: "Livrables",
+      deliverable1: "Documentation technique",
+      deliverable2: "Manuel d’administration",
+      deliverable3: "Sources (code + base)",
+      deliverable4: "Support post-lancement 3 mois"
+    },
+    ar: {
+      metaTitle: "Malek Structure | الهندسة والتنفيذ المعدني",
+      burgerLabel: "فتح القائمة",
+      drawerLabel: "القائمة الجانبية",
+      langSwitchLabel: "محدد اللغة",
+      navQuote: "اطلب عرضاً مجانياً",
+      navHome: "الرئيسية",
+      navAbout: "من نحن",
+      navNosServices: "خدماتنا",
+      navExpertise: "الخبرة",
+      navEngagements: "القيادة الهندسية",
+      navContact: "اتصل بنا",
+      heroTitle: "هياكل معدنية عالية الدقة للمشاريع الكبرى.",
+      heroLead: "نرافق المعماريين ومكاتب الدراسات وشركات البناء بحلول متكاملة: التصميم، التصنيع، التركيب والصيانة للهياكل والأغلفة المعدنية.",
+      heroChip1: "المعايير EN 1090 وISO 9001",
+      heroChip2: "قدرة ورشة 12 000 م²",
+      heroChip3: "نمذجة BIM وتوأم رقمي",
+      heroPrimaryBtn: "اكتشف خدماتنا",
+      heroSecondaryBtn: "اطلب عرضك المجاني →",
+      heroCaption: "مراقبة فورية • تتبع رقمي • تنسيق متعدد الاختصاصات.",
+      chipAbout: "من نحن",
+      aboutHeading: "10 سنوات من الخبرة في خدمة البنى المعدنية.",
+      aboutText: "Malek Structure تصمم وتنجز الهياكل المعقدة للقطاعات الصناعية والخدمية واللوجستية مع مكتب دراسات مدمج.",
+      aboutList1: "موقع إنتاج في البويرة",
+      aboutList2: "فريق متعدد التخصصات (مهندسون، معدليون، رؤساء مشاريع)",
+      aboutList3: "اعتمادات EN 1090-2 فئة EXC4 وISO 3834-2",
+      fieldOpsTag: "عمليات احترافية",
+      fieldOpsTitle: "ورش الإنتاج",
+      fieldOpsText1: "ورش Malek Structure الداخلية تضمن التكامل الكامل بين الدراسة والقطع واللحام والتشطيب لتسليمات متقنة.",
+      fieldOpsList1: "خلايا قطع ليزر/بلازما CNC مرتبطة بنمذجة BIM.",
+      fieldOpsList2: "خطوط لحام روبوتية متعددة المحاور + طاولات يدوية معتمدة.",
+      fieldOpsList3: "غرف السفع الرملي والطلاء المطابقة لـISO 12944.",
+      fieldOpsStat1: "12 000 م²",
+      fieldOpsStat1Label: "مساحة التشغيل",
+      fieldOpsStat2: "ISO 3834-2",
+      fieldOpsStat2Label: "اعتماد اللحام",
+      fieldOpsStat3: "3×8",
+      fieldOpsStat3Label: "إنتاج متواصل",
+      chipNosServices: "خدماتنا",
+      nosServicesHeading: "حلول معدنية مخصصة لمزارع التربية والمواقع الصناعية.",
+      nosServicesText: "من عنابر الدواجن الصغيرة إلى المصانع الجديدة، نصمم ونصنع ونركب هياكل فولاذية حسب الطلب.",
+      nosService1Title: "عنابر دواجن معيارية",
+      nosService1Text: "هياكل خفيفة للتربية الصغيرة والمتوسطة مع تحكم بالتهوية وألواح صحية سهلة التنظيف.",
+      nosService2Title: "حظائر الأغنام والأبقار المعدنية",
+      nosService2Text: "هياكل قابلة للتوسع للقطعان مع عزل حراري وممرات أعلاف ومخازن علف مدمجة.",
+      nosService3Title: "مستودعات صناعية متعددة الأحجام",
+      nosService3Text: "تصميم مبانٍ معدنية صغيرة أو متوسطة أو ضخمة للتخزين وقطع الغيار وسلاسل الإمداد.",
+      nosService4Title: "مصانع معدنية جاهزة",
+      nosService4Text: "مرافقة كاملة لبناء مصانع جديدة: دراسات، تصنيع، تركيب وتشغيل سريع.",
+      chipExpertise: "الخبرة",
+      expertise1Title: "المعايير والامتثال",
+      expertise1Text: "عمليات متوافقة مع EN 1090 وISO 9001 وISO 14001 وISO 45001 مع تتبع رقمي وتدقيقات دورية.",
+      expertise1List1: "خطة جودة موقع العمل",
+      expertise1List2: "تتبع إجراءات اللحام WPS/WPQR",
+      expertise1List3: "خطة وقاية للصحة والسلامة والبيئة",
+      expertise2Title: "القدرات التقنية",
+      expertise2Text: "12 جسراً علوياً، 6 خطوط قطع بلازما عالية الدقة، روبوتات لحام متعددة المحاور، كابينة طلاء ضخمة ومختبر معدني.",
+      expertise2Stat: "24/7",
+      expertise2Note: "إنتاج مستمر ومراقبة في الزمن الحقيقي.",
+      expertise3Title: "الأدوات الرقمية",
+      expertise3Text: "برامج Tekla Structures وRevit وAdvance Steel وRobot Structural Analysis وFieldwire وPower BI للمؤشرات.",
+      chipEngagements: "القيادة الهندسية",
+      engagementsHeading: "قيادة هندسية لمشاريعكم.",
+      engagementsLead: "فريق مهندسي Malek Structure يدير مرحلة ما قبل المشروع والنمذجة والمتابعة لضمان التكلفة والمدة والجودة في كل ورشة.",
+      engagement1Title: "خبرة معتمدة",
+      engagement1Text: "خبرة مهنية موثوقة",
+      engagement2Title: "فريق لامع",
+      engagement2Text: "نواة تقنية عالية الإمكانات",
+      engagement3Title: "إبداع",
+      engagement3Text: "حلول مبتكرة",
+      engagement4Title: "تفاعل سريع",
+      engagement4Text: "استجابة ومشاركة دائمة",
+      engagement5Title: "ضمان نتيجة 100٪",
+      engagement5Text: "دراسة صلبة ومحسّنة",
+      chipContact: "اتصل بنا واطلب عرضاً مجانياً",
+      contactHeading: "مشروعك يستحق عرض سعر مجاني ومفصل.",
+      contactLead: "مهندس مخصص يجيب خلال أقل من 24 ساعة مع تقدير واضح.",
+      formNamePlaceholder: "الاسم / الشركة *",
+      formEmailPlaceholder: "البريد الإلكتروني المهني *",
+      formPhonePlaceholder: "الهاتف",
+      formAddressPlaceholder: "العنوان الكامل",
+      selectPlaceholder: "نوع الخدمة",
+      selectOption1: "التصميم والهندسة",
+      selectOption2: "التصنيع",
+      selectOption3: "التركيب / الورشة",
+      selectOption4: "الصيانة",
+      textareaPlaceholder: "صف مشروعك بإيجاز (الأبعاد، الجداول الزمنية, القيود)…",
+      contactFormLabel: "نموذج طلب العرض",
+      consentText: "أوافق على استخدام بياناتي للتواصل معي (اللائحة العامة لحماية البيانات).",
+      submitBtn: "استلم عرضي المجاني",
+      contactCardTitle: "بيانات الاتصال",
+      contactHQAddress: "<strong>المقر الرئيسي</strong><br>المنطقة الصناعية عين بسام، 10000 البويرة",
+      contactPhoneEmail: "هاتف: +213796096433<br>العنوان: المنطقة الصناعية عين بسام، 10000 البويرة<br>البريد: malekstructure@gmail.com",
+      contactSupport: "عرض مجاني • متوسط الرد 24 ساعة عمل",
+      mapTitle: "الموقع - البويرة",
+      footerText: "هندسة وتصنيع وتركيب منشآت معدنية معقدة في جميع أنحاء الجزائر.",
+      footerLegalTitle: "بيانات قانونية",
+      footerLegalText: "شركة SARL Malek Structure – البويرة<br>هاتف: +213796096433<br>العنوان: المنطقة الصناعية عين بسام، 10000 البويرة<br>البريد الإلكتروني: malekstructure@gmail.com<br>سياسة الخصوصية • RGPD • ملفات تعريف الارتباط",
+      footerDeliverablesTitle: "المخرجات",
+      deliverable1: "الوثائق التقنية",
+      deliverable2: "دليل الإدارة",
+      deliverable3: "المصادر (الكود + قاعدة البيانات)",
+      deliverable4: "دعم ما بعد الإطلاق لمدة 3 أشهر"
+    }
+  };
+
+  const langButtons = document.querySelectorAll('.lang-btn');
+  const storageKey = 'langPreference';
+
+  function applyTranslations(lang) {
+    const dict = translations[lang];
+    if (!dict) return;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (dict[key] !== undefined) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.dataset.i18nHtml;
+      if (dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+      const key = el.dataset.i18nPlaceholder;
+      if (dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const key = el.dataset.i18nAria;
+      if (dict[key] !== undefined) el.setAttribute('aria-label', dict[key]);
+    });
+    document.querySelectorAll('[data-i18n-title]').forEach(el => {
+      const key = el.dataset.i18nTitle;
+      if (dict[key] !== undefined) el.setAttribute('title', dict[key]);
+    });
+    const titleEl = document.querySelector('title[data-i18n]');
+    if (titleEl) {
+      const key = titleEl.dataset.i18n;
+      if (dict[key]) {
+        titleEl.textContent = dict[key];
+        document.title = dict[key];
+      }
+    }
+  }
+
+  function setLanguage(lang) {
+    if (!translations[lang]) lang = 'fr';
+    applyTranslations(lang);
+    document.documentElement.lang = lang === 'ar' ? 'ar' : 'fr';
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.body.dir = document.documentElement.dir;
+    document.body.classList.toggle('rtl', lang === 'ar');
+    langButtons.forEach(btn => {
+      const active = btn.dataset.lang === lang;
+      btn.classList.toggle('active', active);
+      btn.setAttribute('aria-pressed', active);
+    });
+    localStorage.setItem(storageKey, lang);
+  }
+
+  langButtons.forEach(btn => {
+    btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+  });
+
+  const savedLang = localStorage.getItem(storageKey);
+  const initialLang = savedLang || (navigator.language && navigator.language.startsWith('ar') ? 'ar' : 'fr');
+  setLanguage(initialLang);
+</script>
+</body>
+</html>
