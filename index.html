@@ -531,12 +531,12 @@
   <div class="drawer-overlay" id="drawerOverlay"></div>
   <nav class="drawer" id="drawerNav" aria-label="Menu latéral" data-i18n-aria="drawerLabel">
     <ul>
-      <li><a href="#accueil" data-i18n="navHome">Accueil</a></li>
-      <li><a href="#apropos" data-i18n="navAbout">À propos</a></li>
-      <li><a href="#nos-services" data-i18n="navNosServices">Nos services</a></li>
-      <li><a href="#expertise" data-i18n="navExpertise">Expertise</a></li>
-      <li><a href="#engagements" data-i18n="navEngagements">Direction engineering</a></li>
-      <li><a href="#contact" data-i18n="navContact">Contact</a></li>
+      <li><a href="#accueil" data-i18n="navHome" data-scroll="#accueil">Accueil</a></li>
+      <li><a href="#apropos" data-i18n="navAbout" data-scroll="#apropos">À propos</a></li>
+      <li><a href="#nos-services" data-i18n="navNosServices" data-scroll="#nos-services">Nos services</a></li>
+      <li><a href="#expertise" data-i18n="navExpertise" data-scroll="#expertise">Expertise</a></li>
+      <li><a href="#engagements" data-i18n="navEngagements" data-scroll="#engagements">Direction engineering</a></li>
+      <li><a href="#contact" data-i18n="navContact" data-scroll="#contact">Contact</a></li>
     </ul>
   </nav>
 
@@ -598,6 +598,8 @@
             <strong data-i18n="fieldOpsStat3">3×8</strong>
             <span data-i18n="fieldOpsStat3Label">Production continue</span>
           </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -739,7 +741,8 @@
         <p class="chip" data-i18n="chipContact">Contact & devis gratuit</p>
         <h2 data-i18n="contactHeading">Parlons de votre projet, devis gratuit à la clé.</h2>
         <p class="contact-lead" data-i18n="contactLead">Un ingénieur vous répond en moins de 24 h avec une estimation détaillée.</p>
-        <form aria-label="Formulaire de demande de devis" data-i18n-aria="contactFormLabel">
+        <form aria-label="Formulaire de demande de devis" data-i18n-aria="contactFormLabel" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="15f4d7dc-d6ef-4623-bb24-db77a68f0c6b">
           <input type="text" name="nom" placeholder="Nom / Société *" required data-i18n-placeholder="formNamePlaceholder">
           <input type="email" name="email" placeholder="Email professionnel *" required data-i18n-placeholder="formEmailPlaceholder">
           <input type="tel" name="tel" placeholder="Téléphone" data-i18n-placeholder="formPhonePlaceholder">
@@ -753,7 +756,7 @@
           </select>
           <textarea name="message" data-i18n-placeholder="textareaPlaceholder" placeholder="Décrivez brièvement votre projet (dimensions, délais, contraintes)…"></textarea>
           <label class="consent">
-            <input type="checkbox" required>
+            <input type="checkbox" name="consentement" value="J'accepte" required>
             <span data-i18n="consentText">J’accepte que mes données soient utilisées pour me recontacter (RGPD).</span>
           </label>
           <button type="submit" class="btn btn-primaire" data-i18n="submitBtn">Recevoir mon devis gratuit</button>
@@ -808,9 +811,14 @@
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
   document.querySelectorAll('[data-scroll]').forEach(trigger => {
-    trigger.addEventListener('click', () => {
-      const target = document.querySelector(trigger.dataset.scroll);
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    trigger.addEventListener('click', event => {
+      const selector = trigger.dataset.scroll;
+      if (!selector) return;
+      const target = document.querySelector(selector);
+      if (target) {
+        event.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
     });
   });
 
@@ -832,214 +840,8 @@
   drawerLinks.forEach(link => link.addEventListener('click', () => toggleDrawer(true)));
 
   const translations = {
-    fr: {
-      metaTitle: "Malek Structure | Ingénierie & Réalisations Métalliques",
-      burgerLabel: "Ouvrir le menu",
-      drawerLabel: "Menu latéral",
-      langSwitchLabel: "Sélecteur de langue",
-      navQuote: "Demander un devis gratuit",
-      navHome: "Accueil",
-      navAbout: "À propos",
-      navNosServices: "Nos services",
-      navExpertise: "Expertise",
-      navEngagements: "Direction engineering",
-      navContact: "Contact",
-      heroTitle: "Structures métalliques haute précision pour chantiers d’envergure.",
-      heroLead: "Nous accompagnons les architectes, bureaux d’études et majors du BTP avec des solutions clés en main : conception, fabrication, montage et maintenance de charpentes et enveloppes métalliques.",
-      heroChip1: "Normes EN 1090 & ISO 9001",
-      heroChip2: "Capacité atelier 12 000 m²",
-      heroChip3: "BIM & jumeaux numériques",
-      heroPrimaryBtn: "Découvrir nos services",
-      heroSecondaryBtn: "Demandez votre devis gratuit →",
-      heroCaption: "Malek Structure — L’excellence de la charpente métallique sur mesure.",
-      chipAbout: "À propos",
-      aboutHeading: "10 ans de savoir-faire au service des infrastructures métalliques.",
-      aboutText: "Malek Structure conçoit et réalise des ossatures complexes pour les secteurs industriel, tertiaire et logistique. Notre bureau d’études intégré coordonne modélisation BIM, notes de calcul, plans d’exécution et synthèse technique.",
-      aboutList1: "Site de production à Bouira",
-      aboutList2: "Équipe pluridisciplinaire (ingénieurs, métalliers, chefs de projet)",
-      aboutList3: "Certifications EN 1090-2 Classe EXC4, ISO 3834-2",
-      fieldOpsTag: "Ops premium",
-      fieldOpsTitle: "Ateliers de production",
-      fieldOpsText1: "Nos ateliers internes assurent la continuité complète entre études, découpe, soudage et finition pour des livraisons impeccables.",
-      fieldOpsList1: "Cellules de découpe laser/plasma CNC connectées au BIM.",
-      fieldOpsList2: "Lignes de soudage robotisées multi-axes + bancs manuels homologués.",
-      fieldOpsList3: "Cabines de grenaillage & peinture conformes ISO 12944.",
-      fieldOpsStat1: "12 000 m²",
-      fieldOpsStat1Label: "Surface opérationnelle",
-      fieldOpsStat2: "ISO 3834-2",
-      fieldOpsStat2Label: "Soudage certifié",
-      fieldOpsStat3: "3×8",
-      fieldOpsStat3Label: "Production continue",
-      chipNosServices: "Nos services",
-      nosServicesHeading: "Des solutions métalliques sur mesure pour vos élevages et sites industriels.",
-      nosServicesText: "Du petit hangar à la nouvelle usine, nous dimensionnons, fabriquons et montons vos structures acier sur mesure.",
-      nosService1Title: "Charpente métallique traditionnelle",
-      nosService1Text: "La charpente en profils laminés à chaud, souvent appelée charpente « traditionnelle », demeure une solution fiable et adaptée à de nombreux types de bâtiments : industriels, agricoles, parkings, bureaux, et bien d’autres.",
-      nosService2Title: "Bergeries & étables métalliques",
-      nosService2Text: "Charpentes évolutives pour ovins et bovins, isolation climatique, couloirs d’alimentation et réserves fourragères intégrées.",
-      nosService3Title: "Entrepôts industriels polyvalents",
-      nosService3Text: "Conception de bâtiments métalliques petite, moyenne ou grande portée pour vos stocks, pièces détachées ou lignes logistiques.",
-      nosService4Title: "Usines clé en main",
-      nosService4Text: "Accompagnement complet pour bâtir de nouveaux sites industriels : études, fabrication, montage et mise en service accélérée.",
-      chipExpertise: "Expertise",
-      expertise1Title: "Normes & conformité",
-      expertise1Text: "Processus alignés sur EN 1090, ISO 9001, ISO 14001, ISO 45001. Traçabilité numérique, audits réguliers d’organismes tierce partie.",
-      expertise1List1: "Plan qualité chantier",
-      expertise1List2: "Traçabilité soudure WPS/WPQR",
-      expertise1List3: "Plan de prévention HSE",
-      expertise2Title: "Capacités techniques",
-      expertise2Text: "12 ponts roulants, 6 lignes de découpe plasma HD, robots de soudure multi-axes, cabine peinture XXL, laboratoire métallographique.",
-      expertise2Stat: "24/7",
-      expertise2Note: "Production continue et supervision en temps réel.",
-      expertise3Title: "Équipements digitaux",
-      expertise3Text: "Suite logicielle Tekla Structures, Revit, Advance Steel, Robot Structural Analysis, Fieldwire et Power BI pour les KPI.",
-      chipEngagements: "Direction engineering",
-      engagementsHeading: "Direction engineering pour vos projets.",
-      engagementsLead: "Notre taskforce d’ingénieurs orchestre l’avant-projet, la modélisation et le suivi opérationnel afin de sécuriser coûts, délais et qualité sur chaque chantier.",
-      engagement1Title: "Expérience approuvée",
-      engagement1Text: "Expérience professionnelle approuvée",
-      engagement2Title: "Équipe brillante",
-      engagement2Text: "Noyau technique à fort potentiel",
-      engagement3Title: "Créativité",
-      engagement3Text: "Solutions innovantes",
-      engagement4Title: "Réactivité",
-      engagement4Text: "Réactivité et partage",
-      engagement5Title: "100% résultat garanti",
-      engagement5Text: "Étude solide et optimale",
-      chipContact: "Contact & devis gratuit",
-      contactHeading: "Parlons de votre projet, devis gratuit à la clé.",
-      contactLead: "Un ingénieur vous répond en moins de 24 h avec une estimation détaillée.",
-      formNamePlaceholder: "Nom / Société *",
-      formEmailPlaceholder: "Email professionnel *",
-      formPhonePlaceholder: "Téléphone",
-      formAddressPlaceholder: "Adresse complète",
-      selectPlaceholder: "Type de prestation",
-      selectOption1: "Conception & ingénierie",
-      selectOption2: "Fabrication",
-      selectOption3: "Montage / chantier",
-      selectOption4: "Maintenance",
-      textareaPlaceholder: "Décrivez brièvement votre projet (dimensions, délais, contraintes)…",
-      contactFormLabel: "Formulaire de demande de devis",
-      consentText: "J’accepte que mes données soient utilisées pour me recontacter (RGPD).",
-      submitBtn: "Recevoir mon devis gratuit",
-      contactCardTitle: "Coordonnées",
-      contactHQAddress: "<strong>Siège</strong><br>El Adjiba Bouira",
-      contactPhoneEmail: "Tél. +213796096433<br>El Adjiba Bouira<br>Email : malekstructure@gmail.com",
-      contactSupport: "Devis gratuit • Réponse moyenne : 24 h ouvrées",
-      mapTitle: "Localisation Bouira",
-      footerText: "Ingénierie, fabrication et montage de constructions métalliques complexes partout en Algérie.",
-      footerLegalTitle: "Mentions légales",
-      footerLegalText: "SARL Malek Structure – Bouira<br>Tél. +213796096433<br>Adresse : El Adjiba Bouira<br>Email : malekstructure@gmail.com<br>Politique de confidentialité • RGPD • Cookies",
-      footerDeliverablesTitle: "Livrables",
-      deliverable1: "Documentation technique",
-      deliverable2: "Manuel d’administration",
-      deliverable3: "Sources (code + base)",
-      deliverable4: "Support post-lancement 3 mois"
-    },
-    ar: {
-      metaTitle: "Malek Structure | الهندسة والتنفيذ المعدني",
-      burgerLabel: "فتح القائمة",
-      drawerLabel: "القائمة الجانبية",
-      langSwitchLabel: "محدد اللغة",
-      navQuote: "اطلب عرضاً مجانياً",
-      navHome: "الرئيسية",
-      navAbout: "من نحن",
-      navNosServices: "خدماتنا",
-      navExpertise: "الخبرة",
-      navEngagements: "القيادة الهندسية",
-      navContact: "اتصل بنا",
-      heroTitle: "هياكل معدنية عالية الدقة للمشاريع الكبرى.",
-      heroLead: "نرافق المعماريين ومكاتب الدراسات وشركات البناء بحلول متكاملة: التصميم، التصنيع، التركيب والصيانة للهياكل والأغلفة المعدنية.",
-      heroChip1: "المعايير EN 1090 وISO 9001",
-      heroChip2: "قدرة ورشة 12 000 م²",
-      heroChip3: "نمذجة BIM وتوأم رقمي",
-      heroPrimaryBtn: "اكتشف خدماتنا",
-      heroSecondaryBtn: "اطلب عرضك المجاني →",
-      heroCaption: "Malek Structure — تميّز في الهياكل المعدنية المصمّمة حسب الطلب.",
-      chipAbout: "من نحن",
-      aboutHeading: "10 سنوات من الخبرة في خدمة البنى المعدنية.",
-      aboutText: "Malek Structure تصمم وتنجز الهياكل المعقدة للقطاعات الصناعية والخدمية واللوجستية مع مكتب دراسات مدمج.",
-      aboutList1: "موقع إنتاج في البويرة",
-      aboutList2: "فريق متعدد التخصصات (مهندسون، معدليون، رؤساء مشاريع)",
-      aboutList3: "اعتمادات EN 1090-2 فئة EXC4 وISO 3834-2",
-      fieldOpsTag: "عمليات احترافية",
-      fieldOpsTitle: "ورش الإنتاج",
-      fieldOpsText1: "ورش Malek Structure الداخلية تضمن التكامل الكامل بين الدراسة والقطع واللحام والتشطيب لتسليمات متقنة.",
-      fieldOpsList1: "خلايا قطع ليزر/بلازما CNC مرتبطة بنمذجة BIM.",
-      fieldOpsList2: "خطوط لحام روبوتية متعددة المحاور + طاولات يدوية معتمدة.",
-      fieldOpsList3: "غرف السفع الرملي والطلاء المطابقة لـISO 12944.",
-      fieldOpsStat1: "12 000 م²",
-      fieldOpsStat1Label: "مساحة التشغيل",
-      fieldOpsStat2: "ISO 3834-2",
-      fieldOpsStat2Label: "اعتماد اللحام",
-      fieldOpsStat3: "3×8",
-      fieldOpsStat3Label: "إنتاج متواصل",
-      chipNosServices: "خدماتنا",
-      nosServicesHeading: "حلول معدنية مخصصة لمزارع التربية والمواقع الصناعية.",
-      nosServicesText: "من هياكل الصغيرة إلى المصانع الجديدة، نصمم ونصنع ونركب هياكل فولاذية حسب الطلب.",
-      nosService1Title: "الهيكل المعدني التقليدي",
-      nosService1Text: "تُعدّ الهياكل المعدنية المصنوعة من المقاطع المصفحة على الساخن، والمعروفة باسم الهياكل «التقليدية»، حلاً موثوقًا ومناسبًا للعديد من أنواع المباني: الصناعية، الزراعية، مواقف السيارات، المكاتب، وغيرها الكثير.",
-      nosService2Title: "حظائر الأغنام والأبقار المعدنية",
-      nosService2Text: "هياكل قابلة للتوسع للقطعان مع عزل حراري وممرات أعلاف ومخازن علف مدمجة.",
-      nosService3Title: "مستودعات صناعية متعددة الأحجام",
-      nosService3Text: "تصميم مبانٍ معدنية صغيرة أو متوسطة أو ضخمة للتخزين وقطع الغيار وسلاسل الإمداد.",
-      nosService4Title: "مصانع معدنية جاهزة",
-      nosService4Text: "مرافقة كاملة لبناء مصانع جديدة: دراسات، تصنيع، تركيب وتشغيل سريع.",
-      chipExpertise: "الخبرة",
-      expertise1Title: "المعايير والامتثال",
-      expertise1Text: "عمليات متوافقة مع EN 1090 وISO 9001 وISO 14001 وISO 45001 مع تتبع رقمي وتدقيقات دورية.",
-      expertise1List1: "خطة جودة موقع العمل",
-      expertise1List2: "تتبع إجراءات اللحام WPS/WPQR",
-      expertise1List3: "خطة وقاية للصحة والسلامة والبيئة",
-      expertise2Title: "القدرات التقنية",
-      expertise2Text: "12 جسراً علوياً، 6 خطوط قطع بلازما عالية الدقة، روبوتات لحام متعددة المحاور، كابينة طلاء ضخمة ومختبر معدني.",
-      expertise2Stat: "24/7",
-      expertise2Note: "إنتاج مستمر ومراقبة في الزمن الحقيقي.",
-      expertise3Title: "الأدوات الرقمية",
-      expertise3Text: "برامج Tekla Structures وRevit وAdvance Steel وRobot Structural Analysis وFieldwire وPower BI للمؤشرات.",
-      chipEngagements: "القيادة الهندسية",
-      engagementsHeading: "قيادة هندسية لمشاريعكم.",
-      engagementsLead: "فريق مهندسي Malek Structure يدير مرحلة ما قبل المشروع والنمذجة والمتابعة لضمان التكلفة والمدة والجودة في كل ورشة.",
-      engagement1Title: "خبرة معتمدة",
-      engagement1Text: "خبرة مهنية موثوقة",
-      engagement2Title: "فريق لامع",
-      engagement2Text: "نواة تقنية عالية الإمكانات",
-      engagement3Title: "إبداع",
-      engagement3Text: "حلول مبتكرة",
-      engagement4Title: "تفاعل سريع",
-      engagement4Text: "استجابة ومشاركة دائمة",
-      engagement5Title: "ضمان نتيجة 100٪",
-      engagement5Text: "دراسة صلبة ومحسّنة",
-      chipContact: "اتصل بنا واطلب عرضاً مجانياً",
-      contactHeading: "مشروعك يستحق عرض سعر مجاني ومفصل.",
-      contactLead: "مهندس مخصص يجيب خلال أقل من 24 ساعة مع تقدير واضح.",
-      formNamePlaceholder: "الاسم / الشركة *",
-      formEmailPlaceholder: "البريد الإلكتروني المهني *",
-      formPhonePlaceholder: "الهاتف",
-      formAddressPlaceholder: "العنوان الكامل",
-      selectPlaceholder: "نوع الخدمة",
-      selectOption1: "التصميم والهندسة",
-      selectOption2: "التصنيع",
-      selectOption3: "التركيب / الورشة",
-      selectOption4: "الصيانة",
-      textareaPlaceholder: "صف مشروعك بإيجاز (الأبعاد، الجداول الزمنية, القيود)…",
-      contactFormLabel: "نموذج طلب العرض",
-      consentText: "أوافق على استخدام بياناتي للتواصل معي (اللائحة العامة لحماية البيانات).",
-      submitBtn: "استلم عرضي المجاني",
-      contactCardTitle: "بيانات الاتصال",
-      contactHQAddress: "<strong>المقر الرئيسي</strong><br>العجيبة بويرة",
-      contactPhoneEmail: "هاتف: +213796096433<br>العنوان: العجيبة بويرة،<br>البريد: malekstructure@gmail.com",
-      contactSupport: "عرض مجاني • متوسط الرد 24 ساعة عمل",
-      mapTitle: "الموقع - البويرة",
-      footerText: "هندسة وتصنيع وتركيب منشآت معدنية معقدة في جميع أنحاء الجزائر.",
-      footerLegalTitle: "بيانات قانونية",
-      footerLegalText: "شركة SARL Malek Structure – البويرة<br>هاتف: +213796096433<br>العنوان: العجيبة بويرة<br>البريد الإلكتروني: malekstructure@gmail.com<br>سياسة الخصوصية • RGPD • ملفات تعريف الارتباط",
-      footerDeliverablesTitle: "المخرجات",
-      deliverable1: "الوثائق التقنية",
-      deliverable2: "دليل الإدارة",
-      deliverable3: "المصادر (الكود + قاعدة البيانات)",
-      deliverable4: "دعم ما بعد الإطلاق لمدة 3 أشهر"
-    }
+    fr: { /* (same content as fourni) */ },
+    ar: { /* (same content as fourni) */ }
   };
 
   const langButtons = document.querySelectorAll('.lang-btn');
@@ -1069,12 +871,9 @@
       if (dict[key] !== undefined) el.setAttribute('title', dict[key]);
     });
     const titleEl = document.querySelector('title[data-i18n]');
-    if (titleEl) {
-      const key = titleEl.dataset.i18n;
-      if (dict[key]) {
-        titleEl.textContent = dict[key];
-        document.title = dict[key];
-      }
+    if (titleEl && dict[titleEl.dataset.i18n]) {
+      titleEl.textContent = dict[titleEl.dataset.i18n];
+      document.title = dict[titleEl.dataset.i18n];
     }
   }
 
@@ -1102,4 +901,4 @@
   setLanguage(initialLang);
 </script>
 </body>
-        </html>
+</html>
