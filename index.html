@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accès Révêqué - Erreur 402</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #050505;
+            color: #ffffff;
+            font-family: 'Share Tech Mono', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at center, #1a0000 0%, #000000 100%),
+                linear-gradient(rgba(255, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            padding: 50px;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            background: rgba(10, 0, 0, 0.8);
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.1) inset, 0 0 20px rgba(255, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        /* Animation de scan (ligne CRT) */
+        body::after {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+
+        .error-code {
+            color: #ff2a2a;
+            font-size: 24px;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #ff2a2a;
+            animation: pulse 2s infinite;
+        }
+
+        /* Effet Glitch Spectaculaire */
+        .glitch {
+            font-size: 60px;
+            font-weight: bold;
+            text-transform: uppercase;
+            position: relative;
+            color: white;
+            letter-spacing: 2px;
+            margin: 10px 0 30px 0;
+            text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.05em 0 rgba(0, 255, 0, 0.75), 0.025em 0.05em 0 rgba(0, 0, 255, 0.75);
+            animation: glitch 500ms infinite;
+        }
+
+        .glitch span {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .description {
+            font-size: 18px;
+            line-height: 1.5;
+            color: #cccccc;
+            max-width: 600px;
+            margin: 0 auto 40px auto;
+            border-left: 3px solid #ff2a2a;
+            padding-left: 15px;
+            text-align: left;
+        }
+
+        .highlight {
+            color: #ff2a2a;
+            font-weight: bold;
+        }
+
+        .btn-pay {
+            display: inline-block;
+            padding: 15px 40px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 18px;
+            color: #ff2a2a;
+            text-decoration: none;
+            text-transform: uppercase;
+            border: 2px solid #ff2a2a;
+            background: transparent;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 42, 42, 0.2);
+        }
+
+        .btn-pay:hover {
+            background: #ff2a2a;
+            color: #000;
+            box-shadow: 0 0 30px rgba(255, 42, 42, 0.6);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 0.4; }
+            100% { opacity: 0.8; }
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em 0.05em 0 rgba(0, 0, 255, 0.75); }
+            14% { text-shadow: 0.05em 0 0 rgba(255, 0, 0, 0.75), -0.05em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em 0.05em 0 rgba(0, 0, 255, 0.75); }
+            15% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75); }
+            49% { text-shadow: -0.05em -0.025em 0 rgba(255, 0, 0, 0.75), 0.025em 0.025em 0 rgba(0, 255, 0, 0.75), -0.05em -0.05em 0 rgba(0, 0, 255, 0.75); }
+            50% { text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75); }
+            99% { text-shadow: 0.025em 0.05em 0 rgba(255, 0, 0, 0.75), 0.05em 0 0 rgba(0, 255, 0, 0.75), 0 -0.05em 0 rgba(0, 0, 255, 0.75); }
+            100% { text-shadow: -0.025em 0 0 rgba(255, 0, 0, 0.75), -0.025em -0.025em 0 rgba(0, 255, 0, 0.75), -0.025em -0.05em 0 rgba(0, 0, 255, 0.75); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="error-code">STATUS_CODE : 402 PAYMENT_REQUIRED</div>
+        
+        <!-- Le titre avec l'effet Glitch -->
+        <div class="glitch" data-text="SITE VERROUILLÉ">
+            SITE VERROUILLÉ
+        </div>
+
+        <div class="description">
+            <p>> <strong>Avertissement système :</strong> L'accès à ce site web a été révoqué par le prestataire technique.</p>
+            <p>> <strong>Raison :</strong> Défaut de paiement / Factures impayées.</p>
+            <p>> Le déploiement public restera hors ligne et l'accès aux serveurs bloqué jusqu'à <span class="highlight">régularisation intégrale</span> du solde dû.</p>
+        </div>
+
+        <!-- Bouton pour vous contacter -->
+        <a href="mailto:sitemagique.dz@gmail.com" class="btn-pay">[ RÉSOUDRE LE LITIGE ]</a>
+    </div>
+
+</body>
+</html>
